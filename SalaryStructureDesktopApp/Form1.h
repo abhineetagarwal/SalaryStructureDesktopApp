@@ -418,14 +418,19 @@ private: System::Void radioButton8_CheckedChanged(System::Object^  sender, Syste
 			 calculateViaType = 3;
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());
-			 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
-			 EMPINPUTDETAILS empInputDetails(execName,execAmount,CALC_VIA(calculateViaType),GRADE_TYPE(gradeType),IS_MONTHLY(isMonthlyOrYearly));
-			 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
-	         coreObj->doStructuringOfSalary();
-	         coreObj->printSalaryComponent();
-	         delete coreObj;
-			 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+			 if(calculateViaType == 1){
+				 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());
+				 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
+				 EMPINPUTDETAILS empInputDetails(execName,execAmount,CALC_VIA(calculateViaType),GRADE_TYPE(gradeType),IS_MONTHLY(isMonthlyOrYearly));
+				 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
+				 coreObj->doStructuringOfSalary();
+				 coreObj->printSalaryComponent();
+				 delete coreObj;
+				MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+			 }
+			 else{
+				 MessageBox::Show(L"Currently the calculation is done only via Gross. Please choose only Gross component.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+			 }
 			 textBox1->Text = L"";
 			 textBox2->Text = L"";
 			 radioButton1->Checked = false;
