@@ -91,13 +91,16 @@ void AbstractSalaryStructure::salaryStructuringViaGross(){
 	empData.employeeNetSalary = (empData.employeeGrossSalary - (empData.employeeEmployeeESI + empData.employeeProfessionalTax + empData.employeeEmployeePF));
 }
 void AbstractSalaryStructure::salaryStructuringViaCTC(short empGradeType){
-	if((empGradeType == GRADE_ONE || empGradeType == GRADE_TWO) && (empData.employeeCTC >= CTC_LIMIT_GRADE_ONE_OR_TWO)){
-		//Employee Gross Salary for Grade One & Grade Two Employee whose MRI is considered instead of ESI
+	if(empGradeType == GRADE_ONE && empData.employeeCTC >= CTC_LIMIT_GRADE_ONE){
+		//Employee Gross Salary for Grade One Employee whose MRI is considered instead of ESI
+		empData.employeeGrossSalary = ((empData.employeeCTC - (empData.employeeMedicalReimbursement + empData.employeeBonus)) / CTC_GROSS_MRI_RATIO);
+	}else if(empGradeType == GRADE_TWO && empData.employeeCTC >= CTC_LIMIT_GRADE_TWO){
+		//Employee Gross Salary for Grade Two Employee whose MRI is considered instead of ESI
 		empData.employeeGrossSalary = ((empData.employeeCTC - (empData.employeeMedicalReimbursement + empData.employeeBonus)) / CTC_GROSS_MRI_RATIO);
 	}else if(empGradeType == GRADE_THREE && empData.employeeCTC >= CTC_LIMIT_GRADE_THREE){
 		//Employee Gross Salary for Grade Three Employee whose MRI is considered instead of ESI
 		empData.employeeGrossSalary = ((empData.employeeCTC - (empData.employeeMedicalReimbursement + empData.employeeBonus)) / CTC_GROSS_MRI_RATIO);
-	}else{
+	}else if(empData.employeeCTC <= CTC_LIMIT_ANY_GRADE){
 		//Employee Gross Salary for any Grade Employee whose ESI is considered instead of MRI
 		empData.employeeGrossSalary = ((empData.employeeCTC - empData.employeeBonus) / CTC_GROSS_ESI_RATIO);
 		
@@ -121,6 +124,18 @@ void AbstractSalaryStructure::salaryStructuringViaCTC(short empGradeType){
 	//Employee Special Allowance
 	empData.employeeSpecialAllowance = (empData.employeeGrossSalary - (empData.employeeBasicSalary + empData.employeeHRA + empData.employeeConveyanceAllowance));
 	
+	//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
+	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){		
+		//Employer Contribution 4.75% on Gross Salary
+		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
+
+		//Employee Contribution 1.75% on Gross Salary
+		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
+
+		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
+		empData.employeeMedicalReimbursement = 0;
+	}
+
 	//Employee Professional Tax
 	if(empData.employeeGrossSalary >= empBasicNorms.mediumSalaryRange){
 		//If Gross Salary is greater than or equal to 15000/-, then Professional Tax is 200/-
