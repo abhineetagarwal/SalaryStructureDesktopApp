@@ -22,7 +22,7 @@ void CGradeThree::structureSalaryComponent(UDT empAmount, short calcViaType){
 	}
 	else if(calcViaType == CALCULATE_VIA_CTC){
 		empData.employeeCTC = empAmount;
-		salaryStructuringViaCTC();
+		salaryStructuringViaCTC(GRADE_THREE);
 	}
 	else if(calcViaType == CALCULATE_VIA_NETPAY){
 		empData.employeeNetSalary = empAmount;

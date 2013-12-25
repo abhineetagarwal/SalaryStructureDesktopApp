@@ -8,11 +8,6 @@ using namespace std;
 #include "CGradeTwo.h"
 #include "CGradeThree.h"
 
-//Executive Grade
-#define GRADE_ONE	1	//SENIOR EXECUTIVE & ASSISTANT MANAGER
-#define GRADE_TWO	2	//JUNIOR EXECUTIVE
-#define GRADE_THREE 3	//ASSISTANT SUPERVISOR & SUPERVISOR
-
 typedef struct SEmployeeInputDetails
 {
 	char execName[MAX_NAME_LENGTH];

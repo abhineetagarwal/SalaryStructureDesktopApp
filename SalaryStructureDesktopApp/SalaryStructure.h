@@ -11,9 +11,42 @@
 #define IS_MONTHLY(X) (((X=='Y')||(X=='y')) ? true : false)
 
 //Structuring Via Gross or CTC or Net Pay
-#define CALCULATE_VIA_GROSS		11 //Structure the salary component based on Gross Salary
-#define CALCULATE_VIA_CTC		12 //Structure the salary component based on CTC
-#define CALCULATE_VIA_NETPAY	13 //Structure the salary component based on Net Pay
+#define CALCULATE_VIA_GROSS		1 //Structure the salary component based on Gross Salary
+#define CALCULATE_VIA_CTC		2 //Structure the salary component based on CTC
+#define CALCULATE_VIA_NETPAY	3 //Structure the salary component based on Net Pay
+
+//Executive Grade
+#define GRADE_ONE	1	//SENIOR EXECUTIVE & ASSISTANT MANAGER
+#define GRADE_TWO	2	//JUNIOR EXECUTIVE
+#define GRADE_THREE 3	//ASSISTANT SUPERVISOR & SUPERVISOR
+
+//CTC Calculation Technique Data
+#define CTC_LIMIT_GRADE_ONE_OR_TWO (17072)
+#define CTC_LIMIT_GRADE_THREE (16859)
+#define CTC_GROSS_MRI_RATIO (1.06724) 
+#define CTC_GROSS_ESI_RATIO (1.11474)
+/* 
+	Lets assume x = Gross Salary
+	Basic Salary = 40% of Gross Salary, i.e. = 0.4x
+	PF = 12% of Basic, i.e. = (0.12*0.4)x
+	Gratuity = 4.81% of Basic Salary, i.e. = (0.0481*0.4)x
+	Employer ESI = 4.75 of Gross Salary, i.e. = (0.0475)x
+
+	CTC = [Gross Salary + PF + Gratuity + (MRI OR Employer ESI) + Bonus]
+
+	For MRI: CTC = [Gross Salary + PF + Gratuity + MRI + Bonus]
+	.'. CTC = x + (0.12*0.4)x + (0.0481*0.4)x + MRI + 350
+	.'. CTC = [1 + (0.12*0.4) + (0.0481*0.4)]x + MRI + 350
+	.'. CTC = [(1.06724)x + MRI + 350]
+	,', CTC_GROSS_MRI_RATIO is set to (1.06724)
+
+	
+	For ESI: CTC = [Gross Salary + PF + Gratuity + ESI + Bonus]
+	.'. CTC = x + (0.12*0.4)x + (0.0481*0.4)x + (0.0475)x + 350
+	.'. CTC = [1 + (0.12*0.4) + (0.0481*0.4) + (0.0475)]x + 350
+	.'. CTC = [(1.11474)x + 350]
+	,', CTC_GROSS_ESI_RATIO is set to (1.11474)
+*/
 
 typedef double UDT;
 
@@ -63,7 +96,7 @@ public:
 	virtual void getEmployeeData(PTREMPDATA ptrEmpData) = 0;
 	virtual void structureSalaryComponent(UDT empAmount,short calcViaType) = 0;
 	virtual void salaryStructuringViaGross() = 0;
-	virtual void salaryStructuringViaCTC() = 0;
+	virtual void salaryStructuringViaCTC(short empGradeType) = 0;
 	virtual void salaryStructuringViaNetPay() = 0;
 };
 
@@ -75,7 +108,7 @@ public:
 	virtual void getEmployeeData(PTREMPDATA ptrEmpData) = 0;
 	virtual void structureSalaryComponent(UDT empAmount,short calcViaType) = 0;
 	void salaryStructuringViaGross();
-	void salaryStructuringViaCTC();
+	void salaryStructuringViaCTC(short empGradeType);
 	void salaryStructuringViaNetPay();
 public:
 	//Data Members

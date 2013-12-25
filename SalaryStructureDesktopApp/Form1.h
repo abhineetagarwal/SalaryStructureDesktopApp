@@ -28,8 +28,8 @@ namespace SalaryStructureDesktopApp {
 		bool isCalculateViaTypeClicked; //To ensure Grade Type is choosen.
 		bool isGradeTypeClicked; //To ensure Calculation Type is choosen.
 		short calculateViaType; //Choose the calculation type. Either via Gross or CTC or Net Pay
-		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Engineer
-		char isMonthlyOrYearly; //Choose Amount type. Either Monthly or Yearly.
+		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Employee
+		bool isMonthlyOrYearly; //Choose Amount type. Either Monthly(true) or Yearly(false).
 	public:
 		Form1(void)
 		{
@@ -398,50 +398,50 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 		 }
 private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isAmountTypeClicked = true;
-			 isMonthlyOrYearly = 'Y';
+			 isMonthlyOrYearly = true;
 		 }
 private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isAmountTypeClicked = true;
-			 isMonthlyOrYearly = 'N';
+			 isMonthlyOrYearly = false;
 		 }
 private: System::Void radioButton3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isGradeTypeClicked = true;
-			 gradeType = 1;
+			 gradeType = GRADE_ONE;
 		 }
 private: System::Void radioButton4_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isGradeTypeClicked = true;
-			 gradeType = 2;
+			 gradeType = GRADE_TWO;
 		 }
 private: System::Void radioButton5_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isGradeTypeClicked = true;
-			 gradeType = 3;
+			 gradeType = GRADE_THREE;
 		 }
 private: System::Void radioButton6_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isCalculateViaTypeClicked = true;
-			 calculateViaType = 1;
+			 calculateViaType = CALCULATE_VIA_GROSS;
 		 }
 private: System::Void radioButton7_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isCalculateViaTypeClicked = true;
-			 calculateViaType = 2;
+			 calculateViaType = CALCULATE_VIA_CTC;
 		 }
 private: System::Void radioButton8_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isCalculateViaTypeClicked = true;
-			 calculateViaType = 3;
+			 calculateViaType = CALCULATE_VIA_NETPAY;
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if(isAmountTypeClicked && isGradeTypeClicked && isCalculateViaTypeClicked){
-				 if(calculateViaType == 1){
+				 if(calculateViaType == CALCULATE_VIA_GROSS || calculateViaType == CALCULATE_VIA_CTC){
 					 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());
-					 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
-					 EMPINPUTDETAILS empInputDetails(execName,execAmount,CALC_VIA(calculateViaType),GRADE_TYPE(gradeType),IS_MONTHLY(isMonthlyOrYearly));
+   					 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
+					 EMPINPUTDETAILS empInputDetails(execName,execAmount,calculateViaType,gradeType,isMonthlyOrYearly);
 					 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
 					 coreObj->doStructuringOfSalary();
 					 coreObj->printSalaryComponent();
 					 delete coreObj;
-					MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+					 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
 				 }
 				 else{
-					 MessageBox::Show(L"Currently the calculation is done only via Gross. Please choose only Gross component.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+					 MessageBox::Show(L"Currently the calculation is done only via Gross or CTC. Please choose only Gross or CTC component.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
 				 }
 			 }
 			 else{

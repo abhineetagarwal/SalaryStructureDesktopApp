@@ -21,7 +21,7 @@ if(calcViaType == CALCULATE_VIA_GROSS){
 	}
 	else if(calcViaType == CALCULATE_VIA_CTC){
 		empData.employeeCTC = empAmount;
-		salaryStructuringViaCTC();
+		salaryStructuringViaCTC(GRADE_TWO);
 	}
 	else if(calcViaType == CALCULATE_VIA_NETPAY){
 		empData.employeeNetSalary = empAmount;
