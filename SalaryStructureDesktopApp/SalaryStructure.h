@@ -22,7 +22,7 @@
 
 //CTC Calculation Technique Data
 #define CTC_LIMIT_GRADE_ONE_OR_TWO (17072)
-#define CTC_LIMIT_GRADE_THREE (16859)
+#define CTC_LIMIT_GRADE_THREE (16860)
 #define CTC_GROSS_MRI_RATIO (1.06724) 
 #define CTC_GROSS_ESI_RATIO (1.11474)
 /* 
