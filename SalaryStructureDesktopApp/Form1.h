@@ -24,9 +24,12 @@ namespace SalaryStructureDesktopApp {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
-		short calculateViaType;
-		short gradeType;
-		char isMonthlyOrYearly;
+		bool isAmountTypeClicked; //To ensure Amount Type is choosen.
+		bool isCalculateViaTypeClicked; //To ensure Grade Type is choosen.
+		bool isGradeTypeClicked; //To ensure Calculation Type is choosen.
+		short calculateViaType; //Choose the calculation type. Either via Gross or CTC or Net Pay
+		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Engineer
+		char isMonthlyOrYearly; //Choose Amount type. Either Monthly or Yearly.
 	public:
 		Form1(void)
 		{
@@ -394,53 +397,69 @@ private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isAmountTypeClicked = true;
 			 isMonthlyOrYearly = 'Y';
 		 }
 private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isAmountTypeClicked = true;
 			 isMonthlyOrYearly = 'N';
 		 }
 private: System::Void radioButton3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isGradeTypeClicked = true;
 			 gradeType = 1;
 		 }
 private: System::Void radioButton4_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isGradeTypeClicked = true;
 			 gradeType = 2;
 		 }
 private: System::Void radioButton5_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isGradeTypeClicked = true;
 			 gradeType = 3;
 		 }
 private: System::Void radioButton6_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isCalculateViaTypeClicked = true;
 			 calculateViaType = 1;
 		 }
 private: System::Void radioButton7_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isCalculateViaTypeClicked = true;
 			 calculateViaType = 2;
 		 }
 private: System::Void radioButton8_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 isCalculateViaTypeClicked = true;
 			 calculateViaType = 3;
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if(calculateViaType == 1){
-				 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());
-				 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
-				 EMPINPUTDETAILS empInputDetails(execName,execAmount,CALC_VIA(calculateViaType),GRADE_TYPE(gradeType),IS_MONTHLY(isMonthlyOrYearly));
-				 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
-				 coreObj->doStructuringOfSalary();
-				 coreObj->printSalaryComponent();
-				 delete coreObj;
-				MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+			 if(isAmountTypeClicked && isGradeTypeClicked && isCalculateViaTypeClicked){
+				 if(calculateViaType == 1){
+					 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());
+					 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);
+					 EMPINPUTDETAILS empInputDetails(execName,execAmount,CALC_VIA(calculateViaType),GRADE_TYPE(gradeType),IS_MONTHLY(isMonthlyOrYearly));
+					 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
+					 coreObj->doStructuringOfSalary();
+					 coreObj->printSalaryComponent();
+					 delete coreObj;
+					MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+				 }
+				 else{
+					 MessageBox::Show(L"Currently the calculation is done only via Gross. Please choose only Gross component.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+				 }
 			 }
 			 else{
-				 MessageBox::Show(L"Currently the calculation is done only via Gross. Please choose only Gross component.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
+				 MessageBox::Show(L"Please ensure all the radio buttons are choosen and then only proceed.",L"Salary Structure", MessageBoxButtons::OKCancel,MessageBoxIcon::Asterisk);
 			 }
 			 textBox1->Text = L"";
 			 textBox2->Text = L"";
-			 radioButton1->Checked = false;
-			 radioButton2->Checked = false;
-			 radioButton3->Checked = false;
-			 radioButton4->Checked = false;
-			 radioButton5->Checked = false;
-			 radioButton6->Checked = false;
-			 radioButton7->Checked = false;
-			 radioButton8->Checked = false;
+			 isAmountTypeClicked = false; //To ensure Amount Type is choosen.
+			 radioButton1->Checked = false; //Amount Type - Monthly
+			 radioButton2->Checked = false; //Amount Type - Yearly
+			 isGradeTypeClicked = false; //To ensure Grade Type is choosen.
+			 radioButton3->Checked = false; //Grade Type - 1, MRI - 1250/-
+			 radioButton4->Checked = false; //Grade Type - 2, MRI - 800/-
+			 radioButton5->Checked = false; //Grade Type - 3, MRI - 500/-
+			 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
+			 radioButton6->Checked = false; //Calculation Type - Gross
+			 radioButton7->Checked = false; //Calculation Type - CTC
+			 radioButton8->Checked = false; //Calculation Type - Net Pay
 		 }
 };
 }
