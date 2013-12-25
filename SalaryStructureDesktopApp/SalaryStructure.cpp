@@ -4,7 +4,7 @@
 #define YEARLY_CALCULATION 12
 
 void SEmployeeBasicNorms::vInitializeBasicNorms(bool isCalOnMonthlyBasis){
-		//Choose calculation on yearly basis or monthly basis
+		//Choose calculation on Monthly basis or Yearly basis
 		if(isCalOnMonthlyBasis){
 			calculationChoosen = MONTHLY_CALCULATION;
 		}else{
@@ -20,8 +20,8 @@ void SEmployeeBasicNorms::vInitializeBasicNorms(bool isCalOnMonthlyBasis){
 		mediumSalariedEmployee = (calculationChoosen * 150);
 		lowSalariedEmployee = 0;
 
-		//ESI Provision Range
-		maxESIProvisionRange = (calculationChoosen * 15000); //ESI provided to employee for Gross salary less than or equal to 15000 per month
+		//ESI Provision Range - ESI provided to employee for Gross salary less than or equal to 15000 per month
+		maxESIProvisionRange = (calculationChoosen * 15000); 
 
 		//Medical Reimbursement
 		gradeOneMRI =	(calculationChoosen * 1250);    //Grade One Employee MRI
@@ -60,19 +60,25 @@ void AbstractSalaryStructure::salaryStructuringViaGross(){
 	
 	//Employee Professional Tax
 	if(empData.employeeGrossSalary >= empBasicNorms.mediumSalaryRange){
-		empData.employeeProfessionalTax = empBasicNorms.highSalariedEmployee; //If Gross Salary is greater than 15000, then Professional Tax is 200/-
+		//If Gross Salary is greater than or equal to 15000/-, then Professional Tax is 200/-
+		empData.employeeProfessionalTax = empBasicNorms.highSalariedEmployee;
 	}
 	else if(empData.employeeGrossSalary >= empBasicNorms.lowSalaryRange && empData.employeeGrossSalary < empBasicNorms.mediumSalaryRange){
-		empData.employeeProfessionalTax = empBasicNorms.mediumSalariedEmployee; //If Gross Salary is in between 10000/- to 15000/-, then Professional Tax is 150/-
+		//If Gross Salary is in between 10000/- to 15000/-, then Professional Tax is 150/-
+		empData.employeeProfessionalTax = empBasicNorms.mediumSalariedEmployee; 
 	}
 	else{
+		//If Gross Salary is less than 10000/-, then Professional Tax is 0/-
 		empData.employeeProfessionalTax = empBasicNorms.lowSalariedEmployee;
 	}
 
-	//Employee ESI & MRI
-	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){
-		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; //Employee Contribution 4.75% on Gross Salary
-		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; //Employee Contribution 1.75% on Gross Salary
+	//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
+	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){		
+		//Employer Contribution 4.75% on Gross Salary
+		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
+
+		//Employee Contribution 1.75% on Gross Salary
+		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
 
 		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
 		empData.employeeMedicalReimbursement = 0;
