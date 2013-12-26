@@ -433,13 +433,14 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());			 
 				 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);				
 				 if(calculateViaType == CALCULATE_VIA_GROSS || calculateViaType == CALCULATE_VIA_CTC){
-					 if((execAmount < CTC_LIMIT_GRADE_ONE) && (gradeType == GRADE_ONE)){
-						MessageBox::Show(L"Not a valid CTC for Grade One Employee. Please enter CTC greater than  or equal to 17,610/- for Grade One Employee.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
-					 }else if((execAmount < CTC_LIMIT_GRADE_TWO) && (gradeType == GRADE_TWO)){
-						MessageBox::Show(L"Not a valid CTC for Grade Two Employee. Please enter CTC greater than or equal to 17,160/- for Grade Two Employee.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
-					 }else if((execAmount < CTC_LIMIT_GRADE_THREE) && (gradeType == GRADE_THREE)){
-						MessageBox::Show(L"Not a valid CTC for Grade Three Employee. Please enter CTC greater than or equal to 16,860/- for Grade Three Employee.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+					 if((execAmount < CTC_LIMIT_GRADE_ONE && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_ONE)){
+						MessageBox::Show(L"Invalid CTC. For Grade One Employee, CTC should be greater than  or equal to 17,610/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+					 }else if((execAmount < CTC_LIMIT_GRADE_TWO && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_TWO)){
+						MessageBox::Show(L"Invalid CTC. For Grade Two Employee, CTC should be greater than or equal to 17,160/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
 					 }else{
+						 if((execAmount < CTC_LIMIT_GRADE_THREE) && (gradeType == GRADE_THREE)){
+							MessageBox::Show(L"Invalid CTC. For Grade Three Employee, CTC should be greater than or equal to 16,860/-. Hence calculation will be done on ESI basis.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+						 }
 						 EMPINPUTDETAILS empInputDetails(execName,execAmount,calculateViaType,gradeType,isMonthlyOrYearly);
 						 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
 						 coreObj->doStructuringOfSalary();
