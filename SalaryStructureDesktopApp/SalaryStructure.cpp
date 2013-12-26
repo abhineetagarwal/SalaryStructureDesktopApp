@@ -49,46 +49,11 @@ SEmployeeData::SEmployeeData(){
 	employeeProfessionalTax = 0;
 }
 void AbstractSalaryStructure::salaryStructuringViaGross(){
-	empData.employeeBasicSalary = (empData.employeeGrossSalary * 40)/100;	//40% of Gross Salary
-	empData.employeeHRA = (empData.employeeBasicSalary * 50)/100;			//50% of Basic Salary
-	empData.employeeEmployerPF = (empData.employeeBasicSalary * 12)/100;	//12% of Basic Salary
-	empData.employeeEmployeePF = (empData.employeeBasicSalary * 12)/100;	//12% of Basic Salary
-	empData.employeeGratuity = (empData.employeeBasicSalary * 481)/10000;	//4.81% of Basic Salary
-	
-	//Employee Special Allowance
-	empData.employeeSpecialAllowance = (empData.employeeGrossSalary - (empData.employeeBasicSalary + empData.employeeHRA + empData.employeeConveyanceAllowance));
-	
-	//Employee Professional Tax
-	if(empData.employeeGrossSalary >= empBasicNorms.mediumSalaryRange){
-		//If Gross Salary is greater than or equal to 15000/-, then Professional Tax is 200/-
-		empData.employeeProfessionalTax = empBasicNorms.highSalariedEmployee;
-	}
-	else if(empData.employeeGrossSalary >= empBasicNorms.lowSalaryRange && empData.employeeGrossSalary < empBasicNorms.mediumSalaryRange){
-		//If Gross Salary is in between 10000/- to 15000/-, then Professional Tax is 150/-
-		empData.employeeProfessionalTax = empBasicNorms.mediumSalariedEmployee; 
-	}
-	else{
-		//If Gross Salary is less than 10000/-, then Professional Tax is 0/-
-		empData.employeeProfessionalTax = empBasicNorms.lowSalariedEmployee;
-	}
+	//Calculate Gross Dependent Component
+	calculateGrossDependentComponent();
 
-	//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
-	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){		
-		//Employer Contribution 4.75% on Gross Salary
-		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
-
-		//Employee Contribution 1.75% on Gross Salary
-		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
-
-		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
-		empData.employeeMedicalReimbursement = 0;
-	}
-	
 	//Employee CTC
 	empData.employeeCTC = empData.employeeGrossSalary + empData.employeeEmployerESI + empData.employeeMedicalReimbursement + empData.employeeEmployerPF + empData.employeeGratuity + empData.employeeBonus;
-
-	//Employee Net Salary
-	empData.employeeNetSalary = (empData.employeeGrossSalary - (empData.employeeEmployeeESI + empData.employeeProfessionalTax + empData.employeeEmployeePF));
 }
 void AbstractSalaryStructure::salaryStructuringViaCTC(short empGradeType){
 	if(empGradeType == GRADE_ONE && empData.employeeCTC >= CTC_LIMIT_GRADE_ONE){
@@ -103,39 +68,25 @@ void AbstractSalaryStructure::salaryStructuringViaCTC(short empGradeType){
 	}else if(empData.employeeCTC <= CTC_LIMIT_ANY_GRADE){
 		//Employee Gross Salary for any Grade Employee whose ESI is considered instead of MRI
 		empData.employeeGrossSalary = ((empData.employeeCTC - empData.employeeBonus) / CTC_GROSS_ESI_RATIO);
-		
-		//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
-		//Employer Contribution 4.75% on Gross Salary
-		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
-
-		//Employee Contribution 1.75% on Gross Salary
-		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
-
-		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
-		empData.employeeMedicalReimbursement = 0;
 	}
 
+	//Calculate Gross Dependent Component
+	calculateGrossDependentComponent();
+
+}
+void AbstractSalaryStructure::salaryStructuringViaNetPay(){
+}
+void AbstractSalaryStructure::calculateGrossDependentComponent(){
+	//Gross Dependent Component
 	empData.employeeBasicSalary = (empData.employeeGrossSalary * 40)/100;	//40% of Gross Salary
 	empData.employeeHRA = (empData.employeeBasicSalary * 50)/100;			//50% of Basic Salary
 	empData.employeeEmployerPF = (empData.employeeBasicSalary * 12)/100;	//12% of Basic Salary
 	empData.employeeEmployeePF = (empData.employeeBasicSalary * 12)/100;	//12% of Basic Salary
 	empData.employeeGratuity = (empData.employeeBasicSalary * 481)/10000;	//4.81% of Basic Salary
-
+	
 	//Employee Special Allowance
 	empData.employeeSpecialAllowance = (empData.employeeGrossSalary - (empData.employeeBasicSalary + empData.employeeHRA + empData.employeeConveyanceAllowance));
 	
-	//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
-	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){		
-		//Employer Contribution 4.75% on Gross Salary
-		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
-
-		//Employee Contribution 1.75% on Gross Salary
-		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
-
-		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
-		empData.employeeMedicalReimbursement = 0;
-	}
-
 	//Employee Professional Tax
 	if(empData.employeeGrossSalary >= empBasicNorms.mediumSalaryRange){
 		//If Gross Salary is greater than or equal to 15000/-, then Professional Tax is 200/-
@@ -150,8 +101,18 @@ void AbstractSalaryStructure::salaryStructuringViaCTC(short empGradeType){
 		empData.employeeProfessionalTax = empBasicNorms.lowSalariedEmployee;
 	}
 
+	//Employee ESI & MRI - ESI provided to employee for Gross salary less than or equal to 15000/- per month
+	if(empData.employeeGrossSalary <= empBasicNorms.maxESIProvisionRange){		
+		//Employer Contribution 4.75% on Gross Salary
+		empData.employeeEmployerESI = (empData.employeeGrossSalary * 475)/10000; 
+
+		//Employee Contribution 1.75% on Gross Salary
+		empData.employeeEmployeeESI = (empData.employeeGrossSalary * 175)/10000; 
+
+		//Since company is providing ESI for Employee, MRI will not be provided. Therefore MRI will be reset to zero.
+		empData.employeeMedicalReimbursement = 0;
+	}
+
 	//Employee Net Salary
 	empData.employeeNetSalary = (empData.employeeGrossSalary - (empData.employeeEmployeeESI + empData.employeeProfessionalTax + empData.employeeEmployeePF));
-}
-void AbstractSalaryStructure::salaryStructuringViaNetPay(){
 }

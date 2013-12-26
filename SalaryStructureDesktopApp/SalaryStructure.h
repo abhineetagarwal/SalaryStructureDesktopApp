@@ -100,6 +100,7 @@ public:
 	virtual void salaryStructuringViaGross() = 0;
 	virtual void salaryStructuringViaCTC(short empGradeType) = 0;
 	virtual void salaryStructuringViaNetPay() = 0;
+	virtual void calculateGrossDependentComponent() = 0;
 };
 
 class AbstractSalaryStructure:public ISalaryStructure
@@ -112,6 +113,7 @@ public:
 	void salaryStructuringViaGross();
 	void salaryStructuringViaCTC(short empGradeType);
 	void salaryStructuringViaNetPay();
+	void calculateGrossDependentComponent();
 public:
 	//Data Members
 	EMPBASICNORMS empBasicNorms;
