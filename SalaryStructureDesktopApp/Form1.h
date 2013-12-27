@@ -32,6 +32,11 @@ namespace SalaryStructureDesktopApp {
 		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Employee
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+	private: System::Windows::Forms::Label^  label6;
+
+
+	private: 
+
 
 	private: 
 
@@ -63,6 +68,9 @@ namespace SalaryStructureDesktopApp {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::TextBox^  textBox2;
+
+	private: 
+
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::RadioButton^  radioButton1;
 	private: System::Windows::Forms::RadioButton^  radioButton2;
@@ -117,6 +125,7 @@ namespace SalaryStructureDesktopApp {
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
@@ -157,10 +166,14 @@ namespace SalaryStructureDesktopApp {
 			// 
 			// textBox2
 			// 
+			this->textBox2->BackColor = System::Drawing::SystemColors::Window;
+			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
 			this->textBox2->Location = System::Drawing::Point(55, 55);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(216, 20);
 			this->textBox2->TabIndex = 3;
+			this->textBox2->TextChanged += gcnew System::EventHandler(this, &Form1::textBox2_TextChanged);
 			// 
 			// label3
 			// 
@@ -323,6 +336,7 @@ namespace SalaryStructureDesktopApp {
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->label6);
 			this->groupBox1->Controls->Add(this->button2);
 			this->groupBox1->Controls->Add(this->groupBox4);
 			this->groupBox1->Controls->Add(this->groupBox3);
@@ -391,6 +405,18 @@ namespace SalaryStructureDesktopApp {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label6->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label6->Location = System::Drawing::Point(277, 59);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(105, 9);
+			this->label6->TabIndex = 20;
+			this->label6->Text = L"[Enter Non-Decimal Number]";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -420,6 +446,12 @@ private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  
 		 }
 
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if (System::Text::RegularExpressions::Regex::IsMatch(textBox2->Text,"[^0-9]")){
+				textBox2->Text->Remove(textBox2->Text->Length - 1);
+				textBox2->Text = L"";
+			 }
 		 }
 private: System::Void radioButton1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 isAmountTypeClicked = true;
