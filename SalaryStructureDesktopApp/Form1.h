@@ -5,6 +5,7 @@
 namespace SalaryStructureDesktopApp {
 
 	using namespace System;
+	using namespace System::IO;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
@@ -23,12 +24,19 @@ namespace SalaryStructureDesktopApp {
 	/// </summary>
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
-	public:
+	public:		
 		bool isAmountTypeClicked; //To ensure Amount Type is choosen.
 		bool isCalculateViaTypeClicked; //To ensure Grade Type is choosen.
 		bool isGradeTypeClicked; //To ensure Calculation Type is choosen.
 		short calculateViaType; //Choose the calculation type. Either via Gross or CTC or Net Pay
 		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Employee
+	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+
+	private: 
+
+
+	public: 
 		bool isMonthlyOrYearly; //Choose Amount type. Either Monthly(true) or Yearly(false).
 	public:
 		Form1(void)
@@ -104,9 +112,11 @@ namespace SalaryStructureDesktopApp {
 			this->radioButton8 = (gcnew System::Windows::Forms::RadioButton());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBox1->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
@@ -303,7 +313,7 @@ namespace SalaryStructureDesktopApp {
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(105, 208);
+			this->button1->Location = System::Drawing::Point(31, 214);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(141, 23);
 			this->button1->TabIndex = 18;
@@ -313,6 +323,7 @@ namespace SalaryStructureDesktopApp {
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->button2);
 			this->groupBox1->Controls->Add(this->groupBox4);
 			this->groupBox1->Controls->Add(this->groupBox3);
 			this->groupBox1->Controls->Add(this->groupBox2);
@@ -332,6 +343,16 @@ namespace SalaryStructureDesktopApp {
 			this->groupBox1->TabIndex = 16;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Aditya Birla Salary Structure Component";
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(213, 214);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(141, 23);
+			this->button2->TabIndex = 19;
+			this->button2->Text = L"Open File";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &Form1::button2_Click);
 			// 
 			// groupBox4
 			// 
@@ -365,6 +386,10 @@ namespace SalaryStructureDesktopApp {
 			this->groupBox2->Size = System::Drawing::Size(149, 36);
 			this->groupBox2->TabIndex = 15;
 			this->groupBox2->TabStop = false;
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
 			// Form1
 			// 
@@ -429,47 +454,81 @@ private: System::Void radioButton8_CheckedChanged(System::Object^  sender, Syste
 			 calculateViaType = CALCULATE_VIA_NETPAY;
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {	
-			 if((textBox1->Text != "") && (textBox2->Text != "") && isAmountTypeClicked && isGradeTypeClicked && isCalculateViaTypeClicked){
-				 char *execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());			 
-				 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);				
-				 if(calculateViaType == CALCULATE_VIA_GROSS || calculateViaType == CALCULATE_VIA_CTC){
-					 if((execAmount < CTC_LIMIT_GRADE_ONE && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_ONE) && (calculateViaType == CALCULATE_VIA_CTC)){
-						MessageBox::Show(L"Invalid CTC. For Grade One Employee, CTC should be greater than  or equal to 17,610/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
-					 }else if((execAmount < CTC_LIMIT_GRADE_TWO && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_TWO) && (calculateViaType == CALCULATE_VIA_CTC)){
-						MessageBox::Show(L"Invalid CTC. For Grade Two Employee, CTC should be greater than or equal to 17,160/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
-					 }else{
-						 if((execAmount < CTC_LIMIT_GRADE_THREE) && (gradeType == GRADE_THREE) && (calculateViaType == CALCULATE_VIA_CTC)){
-							MessageBox::Show(L"Invalid CTC. For Grade Three Employee, CTC should be greater than or equal to 16,860/-. Hence calculation will be done on ESI basis.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Warning);
-						 }
-						 EMPINPUTDETAILS empInputDetails(execName,execAmount,calculateViaType,gradeType,isMonthlyOrYearly);
-						 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
-						 coreObj->doStructuringOfSalary();
-						 coreObj->printSalaryComponent();
-						 delete coreObj;
-						 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
-					 }
-				 }
-				 else{
-					 MessageBox::Show(L"Currently the calculation is done only via Gross or CTC. Please choose only Gross or CTC component.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
-				 }
-			 }
-			 else{
-				 MessageBox::Show(L"Please fill all the items and ensure all the radio buttons are choosen and then only proceed.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
-			 }
-			 textBox1->Text = L"";
-			 textBox2->Text = L"";
-			 isAmountTypeClicked = false; //To ensure Amount Type is choosen.
-			 radioButton1->Checked = false; //Amount Type - Monthly
-			 radioButton2->Checked = false; //Amount Type - Yearly
-			 isGradeTypeClicked = false; //To ensure Grade Type is choosen.
-			 radioButton3->Checked = false; //Grade Type - 1, MRI - 1250/-
-			 radioButton4->Checked = false; //Grade Type - 2, MRI - 800/-
-			 radioButton5->Checked = false; //Grade Type - 3, MRI - 500/-
-			 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
-			 radioButton6->Checked = false; //Calculation Type - Gross
-			 radioButton7->Checked = false; //Calculation Type - CTC
-			 radioButton8->Checked = false; //Calculation Type - Net Pay
+	 if((textBox1->Text != "") && (textBox2->Text != "") && isAmountTypeClicked && isGradeTypeClicked && isCalculateViaTypeClicked)
+	 {				 
+		 doUIStuff();
+	 }
+	 else
+	 {
+		 MessageBox::Show(L"Please fill all the items and ensure all the radio buttons are choosen and then only proceed.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
+	 }
+	 resetUIData();
+}
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {			
+	 Stream^ myStream;
+	 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+	 if(openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+	 {
+		 if((myStream = openFileDialog1->OpenFile()) != nullptr)
+		 {
+			 String^ myFileName = openFileDialog1->InitialDirectory + openFileDialog1->FileName;
+			 //MessageBox::Show(myFileName);
+			 System::Diagnostics::Process::Start(myFileName);
+			 myStream->Close();
 		 }
+	 }		 
+}
+private: System::Void doUIStuff(){
+	 //The name of the employee whose salary structure need to be created				 
+	 char * execName = static_cast<char*>(Marshal::StringToHGlobalAnsi(textBox1->Text).ToPointer());			 
+	 
+	 //The amount for which salary structure need to be done.
+	 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);				
+	 
+	 if(calculateViaType == CALCULATE_VIA_GROSS || calculateViaType == CALCULATE_VIA_CTC)
+	 {
+		 if((execAmount < CTC_LIMIT_GRADE_ONE && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_ONE) && (calculateViaType == CALCULATE_VIA_CTC))
+		 {
+			MessageBox::Show(L"Invalid CTC. For Grade One Employee, CTC should be greater than  or equal to 17,610/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
+		 }
+		 else if((execAmount < CTC_LIMIT_GRADE_TWO && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_TWO) && (calculateViaType == CALCULATE_VIA_CTC))
+		 {
+			MessageBox::Show(L"Invalid CTC. For Grade Two Employee, CTC should be greater than or equal to 17,160/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
+		 }
+		 else
+		 {
+			 if((execAmount < CTC_LIMIT_GRADE_THREE) && (gradeType == GRADE_THREE) && (calculateViaType == CALCULATE_VIA_CTC))
+			 {
+				MessageBox::Show(L"Invalid CTC. For Grade Three Employee, CTC should be greater than or equal to 16,860/-. Hence calculation will be done on ESI basis.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Warning);
+			 }
+			 EMPINPUTDETAILS empInputDetails(execName,execAmount,calculateViaType,gradeType,isMonthlyOrYearly);
+			 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
+			 coreObj->doStructuringOfSalary();
+			 coreObj->printSalaryComponent();
+			 delete coreObj;
+			 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
+		 }
+	 }
+	 else
+	 {
+		 MessageBox::Show(L"Currently the calculation is done only via Gross or CTC. Please choose only Gross or CTC component.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
+	 }
+}
+private: System::Void resetUIData(){
+	 textBox1->Text = L""; //Executive Name
+	 textBox2->Text = L""; //Executive Amount
+	 isAmountTypeClicked = false; //To ensure Amount Type is choosen.
+	 radioButton1->Checked = false; //Amount Type - Monthly
+	 radioButton2->Checked = false; //Amount Type - Yearly
+	 isGradeTypeClicked = false; //To ensure Grade Type is choosen.
+	 radioButton3->Checked = false; //Grade Type - 1, MRI - 1250/-
+	 radioButton4->Checked = false; //Grade Type - 2, MRI - 800/-
+	 radioButton5->Checked = false; //Grade Type - 3, MRI - 500/-
+	 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
+	 radioButton6->Checked = false; //Calculation Type - Gross
+	 radioButton7->Checked = false; //Calculation Type - CTC
+	 radioButton8->Checked = false; //Calculation Type - Net Pay
+}
 };
 }
 
