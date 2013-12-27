@@ -1,7 +1,6 @@
 #ifndef SALARY_STRUCTURE_H
 #define SALARY_STRUCTURE_H
 
-#include <stdlib.h>
 #include <string.h>
 
 #define MAX_NAME_LENGTH 30 //Maximum length of name
