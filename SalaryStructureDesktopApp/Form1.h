@@ -434,27 +434,27 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				 UDT execAmount = (UDT)Int32::Parse(textBox2->Text);				
 				 if(calculateViaType == CALCULATE_VIA_GROSS || calculateViaType == CALCULATE_VIA_CTC){
 					 if((execAmount < CTC_LIMIT_GRADE_ONE && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_ONE) && (calculateViaType == CALCULATE_VIA_CTC)){
-						MessageBox::Show(L"Invalid CTC. For Grade One Employee, CTC should be greater than  or equal to 17,610/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+						MessageBox::Show(L"Invalid CTC. For Grade One Employee, CTC should be greater than  or equal to 17,610/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
 					 }else if((execAmount < CTC_LIMIT_GRADE_TWO && execAmount > CTC_LIMIT_ANY_GRADE) && (gradeType == GRADE_TWO) && (calculateViaType == CALCULATE_VIA_CTC)){
-						MessageBox::Show(L"Invalid CTC. For Grade Two Employee, CTC should be greater than or equal to 17,160/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+						MessageBox::Show(L"Invalid CTC. For Grade Two Employee, CTC should be greater than or equal to 17,160/-. If you want to calculate on ESI basis, enter amount less than or equal to 17,071/-",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
 					 }else{
 						 if((execAmount < CTC_LIMIT_GRADE_THREE) && (gradeType == GRADE_THREE) && (calculateViaType == CALCULATE_VIA_CTC)){
-							MessageBox::Show(L"Invalid CTC. For Grade Three Employee, CTC should be greater than or equal to 16,860/-. Hence calculation will be done on ESI basis.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+							MessageBox::Show(L"Invalid CTC. For Grade Three Employee, CTC should be greater than or equal to 16,860/-. Hence calculation will be done on ESI basis.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Warning);
 						 }
 						 EMPINPUTDETAILS empInputDetails(execName,execAmount,calculateViaType,gradeType,isMonthlyOrYearly);
 						 CSalaryCore *coreObj = new CSalaryCore(&empInputDetails);
 						 coreObj->doStructuringOfSalary();
 						 coreObj->printSalaryComponent();
 						 delete coreObj;
-						 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+						 MessageBox::Show(L"The salary structure is done.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
 					 }
 				 }
 				 else{
-					 MessageBox::Show(L"Currently the calculation is done only via Gross or CTC. Please choose only Gross or CTC component.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+					 MessageBox::Show(L"Currently the calculation is done only via Gross or CTC. Please choose only Gross or CTC component.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Information);
 				 }
 			 }
 			 else{
-				 MessageBox::Show(L"Please fill all the items and ensure all the radio buttons are choosen and then only proceed.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Asterisk);
+				 MessageBox::Show(L"Please fill all the items and ensure all the radio buttons are choosen and then only proceed.",L"Salary Structure", MessageBoxButtons::OK,MessageBoxIcon::Error);
 			 }
 			 textBox1->Text = L"";
 			 textBox2->Text = L"";
