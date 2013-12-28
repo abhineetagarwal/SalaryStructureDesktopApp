@@ -24,25 +24,41 @@ namespace SalaryStructureDesktopApp {
 	/// </summary>
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
-	public:		
+	public:	
+		bool isMonthlyOrYearly; //Choose Amount type. Either Monthly(true) or Yearly(false).
 		bool isAmountTypeClicked; //To ensure Amount Type is choosen.
 		bool isCalculateViaTypeClicked; //To ensure Grade Type is choosen.
 		bool isGradeTypeClicked; //To ensure Calculation Type is choosen.
 		short calculateViaType; //Choose the calculation type. Either via Gross or CTC or Net Pay
 		short gradeType; //Choose the grade type. Either Grade One or Grade Two or Grade Three Employee
-	private: System::Windows::Forms::Button^  button2;
+	
+	private: System::ComponentModel::Container ^components;	/// <summary>/// Required designer variable./// </summary>
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+    private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Label^  label2;
+    private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::Label^  label4;
+	private: System::Windows::Forms::Label^  label5;
 	private: System::Windows::Forms::Label^  label6;
-
-
-	private: 
-
-
-	private: 
-
-
-	public: 
-		bool isMonthlyOrYearly; //Choose Amount type. Either Monthly(true) or Yearly(false).
+	private: System::Windows::Forms::Label^  label7;
+    private: System::Windows::Forms::Label^  label8;
+	private: System::Windows::Forms::Label^  label9;
+    private: System::Windows::Forms::TextBox^  textBox1;	
+	private: System::Windows::Forms::TextBox^  textBox2;
+    private: System::Windows::Forms::GroupBox^  groupBox1;
+	private: System::Windows::Forms::GroupBox^  groupBox2;
+	private: System::Windows::Forms::GroupBox^  groupBox3;
+	private: System::Windows::Forms::GroupBox^  groupBox4;
+    private: System::Windows::Forms::Button^  button1;
+    private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::RadioButton^  radioButton1;
+	private: System::Windows::Forms::RadioButton^  radioButton2;	
+	private: System::Windows::Forms::RadioButton^  radioButton3;
+	private: System::Windows::Forms::RadioButton^  radioButton4;
+	private: System::Windows::Forms::RadioButton^  radioButton5;    
+	private: System::Windows::Forms::RadioButton^  radioButton6;
+	private: System::Windows::Forms::RadioButton^  radioButton7;
+	private: System::Windows::Forms::RadioButton^  radioButton8;
 	public:
 		Form1(void)
 		{
@@ -53,9 +69,7 @@ namespace SalaryStructureDesktopApp {
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
+		/// <summary>/// Clean up any resources being used.	/// </summary>
 		~Form1()
 		{
 			if (components)
@@ -63,38 +77,6 @@ namespace SalaryStructureDesktopApp {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TextBox^  textBox1;
-	protected: 
-	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::TextBox^  textBox2;
-
-	private: 
-
-	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::RadioButton^  radioButton1;
-	private: System::Windows::Forms::RadioButton^  radioButton2;
-	private: System::Windows::Forms::Label^  label4;
-	private: System::Windows::Forms::RadioButton^  radioButton3;
-	private: System::Windows::Forms::RadioButton^  radioButton4;
-	private: System::Windows::Forms::RadioButton^  radioButton5;
-	private: System::Windows::Forms::Label^  label5;
-	private: System::Windows::Forms::RadioButton^  radioButton6;
-	private: System::Windows::Forms::RadioButton^  radioButton7;
-	private: System::Windows::Forms::RadioButton^  radioButton8;
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::GroupBox^  groupBox1;
-	private: System::Windows::Forms::GroupBox^  groupBox2;
-	private: System::Windows::Forms::GroupBox^  groupBox3;
-	private: System::Windows::Forms::GroupBox^  groupBox4;
-
-
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -120,12 +102,15 @@ namespace SalaryStructureDesktopApp {
 			this->radioButton8 = (gcnew System::Windows::Forms::RadioButton());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
@@ -138,7 +123,6 @@ namespace SalaryStructureDesktopApp {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(216, 20);
 			this->textBox1->TabIndex = 0;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
 			// label1
 			// 
@@ -151,7 +135,6 @@ namespace SalaryStructureDesktopApp {
 			this->label1->Size = System::Drawing::Size(39, 13);
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"Name";
-			this->label1->Click += gcnew System::EventHandler(this, &Form1::label1_Click);
 			// 
 			// label2
 			// 
@@ -180,12 +163,11 @@ namespace SalaryStructureDesktopApp {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(6, 97);
+			this->label3->Location = System::Drawing::Point(6, 94);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(85, 13);
 			this->label3->TabIndex = 4;
 			this->label3->Text = L"Amount Type:";
-			this->label3->Click += gcnew System::EventHandler(this, &Form1::label3_Click);
 			// 
 			// radioButton1
 			// 
@@ -220,12 +202,11 @@ namespace SalaryStructureDesktopApp {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(6, 134);
+			this->label4->Location = System::Drawing::Point(6, 159);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(77, 13);
 			this->label4->TabIndex = 7;
 			this->label4->Text = L"Grade Type:";
-			this->label4->Click += gcnew System::EventHandler(this, &Form1::label4_Click);
 			// 
 			// radioButton3
 			// 
@@ -246,7 +227,7 @@ namespace SalaryStructureDesktopApp {
 			this->radioButton4->AutoSize = true;
 			this->radioButton4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->radioButton4->Location = System::Drawing::Point(98, 12);
+			this->radioButton4->Location = System::Drawing::Point(6, 35);
 			this->radioButton4->Name = L"radioButton4";
 			this->radioButton4->Size = System::Drawing::Size(87, 17);
 			this->radioButton4->TabIndex = 9;
@@ -260,7 +241,7 @@ namespace SalaryStructureDesktopApp {
 			this->radioButton5->AutoSize = true;
 			this->radioButton5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->radioButton5->Location = System::Drawing::Point(191, 12);
+			this->radioButton5->Location = System::Drawing::Point(6, 58);
 			this->radioButton5->Name = L"radioButton5";
 			this->radioButton5->Size = System::Drawing::Size(96, 17);
 			this->radioButton5->TabIndex = 10;
@@ -274,7 +255,7 @@ namespace SalaryStructureDesktopApp {
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label5->Location = System::Drawing::Point(6, 174);
+			this->label5->Location = System::Drawing::Point(6, 227);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(106, 13);
 			this->label5->TabIndex = 11;
@@ -326,9 +307,9 @@ namespace SalaryStructureDesktopApp {
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(31, 214);
+			this->button1->Location = System::Drawing::Point(39, 260);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(141, 23);
+			this->button1->Size = System::Drawing::Size(142, 23);
 			this->button1->TabIndex = 18;
 			this->button1->Text = L"Generate Component";
 			this->button1->UseVisualStyleBackColor = true;
@@ -351,18 +332,30 @@ namespace SalaryStructureDesktopApp {
 			this->groupBox1->Controls->Add(this->label4);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->groupBox1->Location = System::Drawing::Point(12, 12);
+			this->groupBox1->Location = System::Drawing::Point(5, 5);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(386, 254);
+			this->groupBox1->Size = System::Drawing::Size(408, 296);
 			this->groupBox1->TabIndex = 16;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Aditya Birla Salary Structure Component";
 			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label6->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label6->Location = System::Drawing::Point(277, 59);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(129, 12);
+			this->label6->TabIndex = 20;
+			this->label6->Text = L"[Enter Non-Decimal Numbers]";
+			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(213, 214);
+			this->button2->Location = System::Drawing::Point(227, 260);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(141, 23);
+			this->button2->Size = System::Drawing::Size(142, 23);
 			this->button2->TabIndex = 19;
 			this->button2->Text = L"Open File";
 			this->button2->UseVisualStyleBackColor = true;
@@ -373,7 +366,7 @@ namespace SalaryStructureDesktopApp {
 			this->groupBox4->Controls->Add(this->radioButton6);
 			this->groupBox4->Controls->Add(this->radioButton7);
 			this->groupBox4->Controls->Add(this->radioButton8);
-			this->groupBox4->Location = System::Drawing::Point(118, 165);
+			this->groupBox4->Location = System::Drawing::Point(118, 215);
 			this->groupBox4->Name = L"groupBox4";
 			this->groupBox4->Size = System::Drawing::Size(195, 34);
 			this->groupBox4->TabIndex = 17;
@@ -381,15 +374,54 @@ namespace SalaryStructureDesktopApp {
 			// 
 			// groupBox3
 			// 
+			this->groupBox3->Controls->Add(this->label9);
+			this->groupBox3->Controls->Add(this->label8);
+			this->groupBox3->Controls->Add(this->label7);
 			this->groupBox3->Controls->Add(this->radioButton3);
 			this->groupBox3->Controls->Add(this->radioButton4);
 			this->groupBox3->Controls->Add(this->radioButton5);
 			this->groupBox3->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->groupBox3->Location = System::Drawing::Point(89, 123);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(290, 36);
+			this->groupBox3->Size = System::Drawing::Size(313, 85);
 			this->groupBox3->TabIndex = 16;
 			this->groupBox3->TabStop = false;
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label9->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label9->Location = System::Drawing::Point(105, 60);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(147, 12);
+			this->label9->TabIndex = 13;
+			this->label9->Text = L"- Assistant Supervisor, Supervisor";
+			// 
+			// label8
+			// 
+			this->label8->AutoSize = true;
+			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label8->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label8->Location = System::Drawing::Point(95, 37);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(126, 12);
+			this->label8->TabIndex = 12;
+			this->label8->Text = L"- Junior Executive, Executive";
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label7->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label7->Location = System::Drawing::Point(95, 14);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(164, 12);
+			this->label7->TabIndex = 11;
+			this->label7->Text = L"- Senior Executive, Assistant Manager";
 			// 
 			// groupBox2
 			// 
@@ -405,23 +437,11 @@ namespace SalaryStructureDesktopApp {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
-			// label6
-			// 
-			this->label6->AutoSize = true;
-			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label6->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->label6->Location = System::Drawing::Point(277, 59);
-			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(105, 9);
-			this->label6->TabIndex = 20;
-			this->label6->Text = L"[Enter Non-Decimal Number]";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(409, 278);
+			this->ClientSize = System::Drawing::Size(419, 306);
 			this->Controls->Add(this->groupBox1);
 			this->MaximizeBox = false;
 			this->Name = L"Form1";
@@ -438,15 +458,6 @@ namespace SalaryStructureDesktopApp {
 
 		}
 #pragma endregion
-	private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
-	private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
-private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
-		 }
-
-private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
 private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if (System::Text::RegularExpressions::Regex::IsMatch(textBox2->Text,"[^0-9]")){
 				textBox2->Text->Remove(textBox2->Text->Length - 1);
