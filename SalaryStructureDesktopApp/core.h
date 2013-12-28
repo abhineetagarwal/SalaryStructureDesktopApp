@@ -1,8 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include<iostream>
-using namespace std;
+#include <stdio.h>
 
 #include "CGradeOne.h"
 #include "CGradeTwo.h"
