@@ -58,7 +58,7 @@ namespace SalaryStructureDesktopApp {
 	private: System::Windows::Forms::RadioButton^  radioButton5;    
 	private: System::Windows::Forms::RadioButton^  radioButton6;
 	private: System::Windows::Forms::RadioButton^  radioButton7;
-	private: System::Windows::Forms::RadioButton^  radioButton8;
+
 	public:
 		Form1(void)
 		{
@@ -99,7 +99,6 @@ namespace SalaryStructureDesktopApp {
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->radioButton6 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton7 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton8 = (gcnew System::Windows::Forms::RadioButton());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
@@ -289,20 +288,6 @@ namespace SalaryStructureDesktopApp {
 			this->radioButton7->UseVisualStyleBackColor = true;
 			this->radioButton7->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton7_CheckedChanged);
 			// 
-			// radioButton8
-			// 
-			this->radioButton8->AutoSize = true;
-			this->radioButton8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->radioButton8->Location = System::Drawing::Point(124, 10);
-			this->radioButton8->Name = L"radioButton8";
-			this->radioButton8->Size = System::Drawing::Size(70, 17);
-			this->radioButton8->TabIndex = 14;
-			this->radioButton8->TabStop = true;
-			this->radioButton8->Text = L"Net Pay";
-			this->radioButton8->UseVisualStyleBackColor = true;
-			this->radioButton8->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton8_CheckedChanged);
-			// 
 			// button1
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
@@ -365,10 +350,9 @@ namespace SalaryStructureDesktopApp {
 			// 
 			this->groupBox4->Controls->Add(this->radioButton6);
 			this->groupBox4->Controls->Add(this->radioButton7);
-			this->groupBox4->Controls->Add(this->radioButton8);
 			this->groupBox4->Location = System::Drawing::Point(118, 215);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(195, 34);
+			this->groupBox4->Size = System::Drawing::Size(120, 34);
 			this->groupBox4->TabIndex = 17;
 			this->groupBox4->TabStop = false;
 			// 
@@ -584,7 +568,6 @@ private: System::Void resetUIData(){
 			 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
 			 radioButton6->Checked = false; //Calculation Type - Gross
 			 radioButton7->Checked = false; //Calculation Type - CTC
-			 radioButton8->Checked = false; //Calculation Type - Net Pay
 		 }
 };
 }
