@@ -558,16 +558,21 @@ private: System::Void createSalaryComponent(char* execName, UDT execAmount){
 private: System::Void resetUIData(){
 			 textBox1->Text = L""; //Executive Name
 			 textBox2->Text = L""; //Executive Amount
-			 isAmountTypeClicked = false; //To ensure Amount Type is choosen.
+			 
 			 radioButton1->Checked = false; //Amount Type - Monthly
 			 radioButton2->Checked = false; //Amount Type - Yearly
-			 isGradeTypeClicked = false; //To ensure Grade Type is choosen.
+			 
 			 radioButton3->Checked = false; //Grade Type - 1, MRI - 1250/-
 			 radioButton4->Checked = false; //Grade Type - 2, MRI - 800/-
 			 radioButton5->Checked = false; //Grade Type - 3, MRI - 500/-
-			 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
+			 
 			 radioButton6->Checked = false; //Calculation Type - Gross
 			 radioButton7->Checked = false; //Calculation Type - CTC
+
+			 //Resetting the check button.
+ 			 isAmountTypeClicked = false; //To ensure Amount Type is choosen.
+ 			 isGradeTypeClicked = false; //To ensure Grade Type is choosen.
+ 			 isCalculateViaTypeClicked = false; //To ensure Calculation Type is choosen.
 		 }
 };
 }
