@@ -62,8 +62,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,5
- PRODUCTVERSION 1,0,0,5
+ FILEVERSION 1,0,0,6
+ PRODUCTVERSION 1,0,0,6
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -81,12 +81,12 @@ BEGIN
             VALUE "Comments", "Salary Structure Application"
             VALUE "CompanyName", "Abhineet Agarwal"
             VALUE "FileDescription", "Salary Structure Application"
-            VALUE "FileVersion", "1, 0, 0, 5"
+            VALUE "FileVersion", "1, 0, 0, 6"
             VALUE "InternalName", "SalarySt"
-            VALUE "LegalCopyright", "Copyright (C) Abhineet Agarwal 2013"
+            VALUE "LegalCopyright", "Copyright (C) Abhineet Agarwal 2014"
             VALUE "OriginalFilename", "SalaryStructure.exe"
             VALUE "ProductName", "Salary Structure Application"
-            VALUE "ProductVersion", "1, 0, 0, 5"
+            VALUE "ProductVersion", "1, 0, 0, 6"
         END
     END
     BLOCK "VarFileInfo"
